@@ -167,11 +167,16 @@
         "measure_temperature_probe6",
         "measure_fan_output"
       ],
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ]
+      },
       "capabilitiesOptions": {
         "measure_temperature": {
           "title": {
-            "en": "Internal Temp",
-            "nl": "Interne Temp"
+            "en": "FireBoard",
+            "nl": "FireBoard"
           }
         }
       },
