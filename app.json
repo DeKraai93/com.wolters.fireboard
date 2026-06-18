@@ -1,0 +1,429 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.wolters.fireboard",
+  "version": "1.0.0",
+  "compatibility": ">=12.4.0",
+  "sdk": 3,
+  "runtime": "nodejs",
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "FireBoard"
+  },
+  "description": {
+    "en": "The Complete Package."
+  },
+  "brandColor": "#EF4023",
+  "category": [
+    "tools"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "DeKraai93"
+  },
+  "flow": {
+    "triggers": [
+      {
+        "title": {
+          "en": "Probe connected",
+          "nl": "Probe aangesloten"
+        },
+        "titleFormatted": {
+          "en": "A probe was connected",
+          "nl": "Er is een probe aangesloten"
+        },
+        "tokens": [
+          {
+            "name": "probe",
+            "type": "string",
+            "title": {
+              "en": "Probe",
+              "nl": "Probe"
+            }
+          },
+          {
+            "name": "probe_number",
+            "type": "number",
+            "title": {
+              "en": "Probe number",
+              "nl": "Probe nummer"
+            }
+          }
+        ],
+        "id": "probe_connected"
+      },
+      {
+        "title": {
+          "en": "Probe disconnected",
+          "nl": "Probe losgekoppeld"
+        },
+        "titleFormatted": {
+          "en": "A probe was disconnected",
+          "nl": "Er is een probe losgekoppeld"
+        },
+        "tokens": [
+          {
+            "name": "probe",
+            "type": "string",
+            "title": {
+              "en": "Probe",
+              "nl": "Probe"
+            }
+          },
+          {
+            "name": "probe_number",
+            "type": "number",
+            "title": {
+              "en": "Probe number",
+              "nl": "Probe nummer"
+            }
+          }
+        ],
+        "id": "probe_disconnected"
+      }
+    ],
+    "conditions": [
+      {
+        "title": {
+          "en": "Probe temperature is above",
+          "nl": "Probe temperatuur is boven"
+        },
+        "titleFormatted": {
+          "en": "[[probe]] is above [[temperature]] °C",
+          "nl": "[[probe]] is boven [[temperature]] °C"
+        },
+        "args": [
+          {
+            "name": "probe",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "Probe",
+              "nl": "Probe"
+            }
+          },
+          {
+            "name": "temperature",
+            "type": "number",
+            "placeholder": {
+              "en": "Temperature",
+              "nl": "Temperatuur"
+            }
+          }
+        ],
+        "id": "probe_temperature_above"
+      },
+      {
+        "title": {
+          "en": "Probe temperature is below",
+          "nl": "Probe temperatuur is onder"
+        },
+        "titleFormatted": {
+          "en": "[[probe]] is below [[temperature]] °C",
+          "nl": "[[probe]] is onder [[temperature]] °C"
+        },
+        "args": [
+          {
+            "name": "probe",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "Probe",
+              "nl": "Probe"
+            }
+          },
+          {
+            "name": "temperature",
+            "type": "number",
+            "placeholder": {
+              "en": "Temperature",
+              "nl": "Temperatuur"
+            }
+          }
+        ],
+        "id": "probe_temperature_below"
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "FireBoard",
+        "nl": "FireBoard"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_battery",
+        "measure_temperature",
+        "measure_temperature_probe1",
+        "measure_temperature_probe2",
+        "measure_temperature_probe3",
+        "measure_temperature_probe4",
+        "measure_temperature_probe5",
+        "measure_temperature_probe6",
+        "measure_fan_output"
+      ],
+      "capabilitiesOptions": {
+        "measure_temperature": {
+          "title": {
+            "en": "Internal Temp",
+            "nl": "Interne Temp"
+          }
+        }
+      },
+      "images": {
+        "small": "/drivers/fireboard/assets/images/small.png",
+        "large": "/drivers/fireboard/assets/images/large.png",
+        "xlarge": "/drivers/fireboard/assets/images/xlarge.png"
+      },
+      "settings": [
+        {
+          "id": "poll_interval",
+          "type": "dropdown",
+          "label": {
+            "en": "Poll interval",
+            "nl": "Verversinterval"
+          },
+          "value": "60",
+          "values": [
+            {
+              "id": "15",
+              "label": {
+                "en": "15 seconds",
+                "nl": "15 seconden"
+              }
+            },
+            {
+              "id": "30",
+              "label": {
+                "en": "30 seconds",
+                "nl": "30 seconden"
+              }
+            },
+            {
+              "id": "60",
+              "label": {
+                "en": "60 seconds",
+                "nl": "60 seconden"
+              }
+            },
+            {
+              "id": "120",
+              "label": {
+                "en": "120 seconds",
+                "nl": "120 seconden"
+              }
+            },
+            {
+              "id": "300",
+              "label": {
+                "en": "5 minutes",
+                "nl": "5 minuten"
+              }
+            }
+          ]
+        },
+        {
+          "id": "info_model",
+          "type": "text",
+          "label": {
+            "en": "Model",
+            "nl": "Model"
+          },
+          "value": "-"
+        },
+        {
+          "id": "info_firmware",
+          "type": "text",
+          "label": {
+            "en": "Firmware",
+            "nl": "Firmware"
+          },
+          "value": "-"
+        },
+        {
+          "id": "info_hardware_id",
+          "type": "text",
+          "label": {
+            "en": "Hardware ID",
+            "nl": "Hardware ID"
+          },
+          "value": "-"
+        },
+        {
+          "id": "info_last_update",
+          "type": "text",
+          "label": {
+            "en": "Last update",
+            "nl": "Laatste update"
+          },
+          "value": "-"
+        },
+        {
+          "id": "info_ssid",
+          "type": "text",
+          "label": {
+            "en": "Wi-Fi SSID",
+            "nl": "Wi-Fi SSID"
+          },
+          "value": "-"
+        },
+        {
+          "id": "info_wifi_signal",
+          "type": "text",
+          "label": {
+            "en": "Wi-Fi signal",
+            "nl": "Wi-Fi signaal"
+          },
+          "value": "-"
+        },
+        {
+          "id": "info_drive",
+          "type": "text",
+          "label": {
+            "en": "Drive",
+            "nl": "Drive"
+          },
+          "value": "-"
+        }
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "cloud"
+      ],
+      "pair": [
+        {
+          "id": "login",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "fireboard"
+    }
+  ],
+  "capabilities": {
+    "measure_fan_output": {
+      "type": "number",
+      "title": {
+        "en": "Fan Output",
+        "nl": "Ventilator"
+      },
+      "units": {
+        "en": "%"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor"
+    },
+    "measure_temperature_probe1": {
+      "type": "number",
+      "title": {
+        "en": "Probe 1",
+        "nl": "Probe 1"
+      },
+      "units": {
+        "en": "°C"
+      },
+      "decimals": 1,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor"
+    },
+    "measure_temperature_probe2": {
+      "type": "number",
+      "title": {
+        "en": "Probe 2",
+        "nl": "Probe 2"
+      },
+      "units": {
+        "en": "°C"
+      },
+      "decimals": 1,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor"
+    },
+    "measure_temperature_probe3": {
+      "type": "number",
+      "title": {
+        "en": "Probe 3",
+        "nl": "Probe 3"
+      },
+      "units": {
+        "en": "°C"
+      },
+      "decimals": 1,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor"
+    },
+    "measure_temperature_probe4": {
+      "type": "number",
+      "title": {
+        "en": "Probe 4",
+        "nl": "Probe 4"
+      },
+      "units": {
+        "en": "°C"
+      },
+      "decimals": 1,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor"
+    },
+    "measure_temperature_probe5": {
+      "type": "number",
+      "title": {
+        "en": "Probe 5",
+        "nl": "Probe 5"
+      },
+      "units": {
+        "en": "°C"
+      },
+      "decimals": 1,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor"
+    },
+    "measure_temperature_probe6": {
+      "type": "number",
+      "title": {
+        "en": "Probe 6",
+        "nl": "Probe 6"
+      },
+      "units": {
+        "en": "°C"
+      },
+      "decimals": 1,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor"
+    }
+  }
+}

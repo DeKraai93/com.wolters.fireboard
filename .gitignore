@@ -1,0 +1,14 @@
+node_modules/
+.homeybuild/
+.homeycompose/build/
+
+*.log
+npm-debug.log*
+
+.vscode/
+
+Thumbs.db
+.DS_Store
+
+.env
+.env.*

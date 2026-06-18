@@ -1,0 +1,112 @@
+{
+  "name": {
+    "en": "FireBoard",
+    "nl": "FireBoard"
+  },
+  "class": "sensor",
+  "capabilities": [
+    "measure_battery",
+    "measure_temperature",
+    "measure_temperature_probe1",
+    "measure_temperature_probe2",
+    "measure_temperature_probe3",
+    "measure_temperature_probe4",
+    "measure_temperature_probe5",
+    "measure_temperature_probe6",
+    "measure_fan_output"
+  ],
+  "capabilitiesOptions": {
+    "measure_temperature": {
+      "title": {
+        "en": "Internal Temp",
+        "nl": "Interne Temp"
+      }
+    }
+  },
+  "images": {
+  "small": "/drivers/fireboard/assets/images/small.png",
+  "large": "/drivers/fireboard/assets/images/large.png",
+  "xlarge": "/drivers/fireboard/assets/images/xlarge.png"
+  },
+  "settings": [
+    {
+      "id": "poll_interval",
+      "type": "dropdown",
+      "label": {
+        "en": "Poll interval",
+        "nl": "Verversinterval"
+      },
+      "value": "60",
+      "values": [
+        { "id": "15", "label": { "en": "15 seconds", "nl": "15 seconden" } },
+        { "id": "30", "label": { "en": "30 seconds", "nl": "30 seconden" } },
+        { "id": "60", "label": { "en": "60 seconds", "nl": "60 seconden" } },
+        { "id": "120", "label": { "en": "120 seconds", "nl": "120 seconden" } },
+        { "id": "300", "label": { "en": "5 minutes", "nl": "5 minuten" } }
+      ]
+    },
+    {
+      "id": "info_model",
+      "type": "text",
+      "label": { "en": "Model", "nl": "Model" },
+      "value": "-"
+    },
+    {
+      "id": "info_firmware",
+      "type": "text",
+      "label": { "en": "Firmware", "nl": "Firmware" },
+      "value": "-"
+    },
+    {
+      "id": "info_hardware_id",
+      "type": "text",
+      "label": { "en": "Hardware ID", "nl": "Hardware ID" },
+      "value": "-"
+    },
+    {
+      "id": "info_last_update",
+      "type": "text",
+      "label": { "en": "Last update", "nl": "Laatste update" },
+      "value": "-"
+    },
+    {
+      "id": "info_ssid",
+      "type": "text",
+      "label": { "en": "Wi-Fi SSID", "nl": "Wi-Fi SSID" },
+      "value": "-"
+    },
+    {
+      "id": "info_wifi_signal",
+      "type": "text",
+      "label": { "en": "Wi-Fi signal", "nl": "Wi-Fi signaal" },
+      "value": "-"
+    },
+    {
+      "id": "info_drive",
+      "type": "text",
+      "label": { "en": "Drive", "nl": "Drive" },
+      "value": "-"
+    }
+  ],
+  "platforms": ["local"],
+  "connectivity": ["cloud"],
+  "pair": [
+    {
+      "id": "login",
+      "navigation": {
+        "next": "list_devices"
+      }
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ]
+}

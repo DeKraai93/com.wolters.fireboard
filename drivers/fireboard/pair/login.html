@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+
+  <div class="homey-form-group">
+    <label class="homey-form-label">FireBoard Email</label>
+    <input id="username" class="homey-form-input" type="email" placeholder="name@example.com">
+  </div>
+
+  <div class="homey-form-group">
+    <label class="homey-form-label">FireBoard Password</label>
+    <input id="password" class="homey-form-input" type="password" placeholder="Password">
+  </div>
+
+  <button id="loginButton" class="homey-button-primary-full">
+    Login
+  </button>
+
+  <script>
+    Homey.setTitle('FireBoard Login');
+
+    document.getElementById('loginButton').addEventListener('click', async () => {
+      try {
+        await Homey.emit('login', {
+          username: document.getElementById('username').value,
+          password: document.getElementById('password').value
+        });
+
+        Homey.nextView();
+      } catch (error) {
+        Homey.alert(error.message || error);
+      }
+    });
+  </script>
+
+</body>
+</html>

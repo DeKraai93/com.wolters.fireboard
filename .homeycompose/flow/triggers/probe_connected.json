@@ -1,0 +1,28 @@
+{
+  "title": {
+    "en": "Probe connected",
+    "nl": "Probe aangesloten"
+  },
+  "titleFormatted": {
+    "en": "A probe was connected",
+    "nl": "Er is een probe aangesloten"
+  },
+  "tokens": [
+    {
+      "name": "probe",
+      "type": "string",
+      "title": {
+        "en": "Probe",
+        "nl": "Probe"
+      }
+    },
+    {
+      "name": "probe_number",
+      "type": "number",
+      "title": {
+        "en": "Probe number",
+        "nl": "Probe nummer"
+      }
+    }
+  ]
+}

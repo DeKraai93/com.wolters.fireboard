@@ -1,0 +1,28 @@
+{
+  "title": {
+    "en": "Probe disconnected",
+    "nl": "Probe losgekoppeld"
+  },
+  "titleFormatted": {
+    "en": "A probe was disconnected",
+    "nl": "Er is een probe losgekoppeld"
+  },
+  "tokens": [
+    {
+      "name": "probe",
+      "type": "string",
+      "title": {
+        "en": "Probe",
+        "nl": "Probe"
+      }
+    },
+    {
+      "name": "probe_number",
+      "type": "number",
+      "title": {
+        "en": "Probe number",
+        "nl": "Probe nummer"
+      }
+    }
+  ]
+}

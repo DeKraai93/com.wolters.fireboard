@@ -1,0 +1,15 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Probe 4",
+    "nl": "Probe 4"
+  },
+  "units": {
+    "en": "°C"
+  },
+  "decimals": 1,
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "uiComponent": "sensor"
+}

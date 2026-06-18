@@ -1,0 +1,15 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Fan Output",
+    "nl": "Ventilator"
+  },
+  "units": {
+    "en": "%"
+  },
+  "decimals": 0,
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "uiComponent": "sensor"
+}

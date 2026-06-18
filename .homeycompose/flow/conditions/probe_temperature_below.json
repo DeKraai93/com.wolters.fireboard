@@ -1,0 +1,28 @@
+{
+  "title": {
+    "en": "Probe temperature is below",
+    "nl": "Probe temperatuur is onder"
+  },
+  "titleFormatted": {
+    "en": "[[probe]] is below [[temperature]] °C",
+    "nl": "[[probe]] is onder [[temperature]] °C"
+  },
+  "args": [
+    {
+      "name": "probe",
+      "type": "autocomplete",
+      "placeholder": {
+        "en": "Probe",
+        "nl": "Probe"
+      }
+    },
+    {
+      "name": "temperature",
+      "type": "number",
+      "placeholder": {
+        "en": "Temperature",
+        "nl": "Temperatuur"
+      }
+    }
+  ]
+}
