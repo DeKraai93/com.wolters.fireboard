@@ -104,6 +104,10 @@
           {
             "name": "probe",
             "type": "autocomplete",
+            "title": {
+              "en": "Probe",
+              "nl": "Probe"
+            },
             "placeholder": {
               "en": "Probe",
               "nl": "Probe"
@@ -112,6 +116,10 @@
           {
             "name": "temperature",
             "type": "number",
+            "title": {
+              "en": "Temperature",
+              "nl": "Temperatuur"
+            },
             "placeholder": {
               "en": "Temperature",
               "nl": "Temperatuur"
@@ -133,6 +141,10 @@
           {
             "name": "probe",
             "type": "autocomplete",
+            "title": {
+              "en": "Probe",
+              "nl": "Probe"
+            },
             "placeholder": {
               "en": "Probe",
               "nl": "Probe"
@@ -141,6 +153,10 @@
           {
             "name": "temperature",
             "type": "number",
+            "title": {
+              "en": "Temperature",
+              "nl": "Temperatuur"
+            },
             "placeholder": {
               "en": "Temperature",
               "nl": "Temperatuur"
@@ -189,331 +205,385 @@
       },
       "settings": [
         {
-          "id": "poll_interval",
-          "type": "dropdown",
+          "type": "group",
           "label": {
-            "en": "Poll interval",
-            "nl": "Verversinterval"
+            "en": "Polling",
+            "nl": "Verversing"
           },
-          "value": "60",
-          "values": [
+          "children": [
             {
-              "id": "30",
+              "id": "poll_interval",
+              "type": "dropdown",
               "label": {
-                "en": "30 seconds",
-                "nl": "30 seconden"
-              }
-            },
-            {
-              "id": "60",
-              "label": {
-                "en": "60 seconds",
-                "nl": "60 seconden"
-              }
-            },
-            {
-              "id": "120",
-              "label": {
-                "en": "120 seconds",
-                "nl": "120 seconden"
-              }
-            },
-            {
-              "id": "300",
-              "label": {
-                "en": "5 minutes",
-                "nl": "5 minuten"
-              }
+                "en": "Poll interval",
+                "nl": "Verversinterval"
+              },
+              "value": "60",
+              "values": [
+                {
+                  "id": "30",
+                  "label": {
+                    "en": "30 seconds",
+                    "nl": "30 seconden"
+                  }
+                },
+                {
+                  "id": "60",
+                  "label": {
+                    "en": "60 seconds",
+                    "nl": "60 seconden"
+                  }
+                },
+                {
+                  "id": "120",
+                  "label": {
+                    "en": "120 seconds",
+                    "nl": "120 seconden"
+                  }
+                },
+                {
+                  "id": "300",
+                  "label": {
+                    "en": "5 minutes",
+                    "nl": "5 minuten"
+                  }
+                }
+              ]
             }
           ]
         },
         {
-          "id": "info_title",
-          "type": "text",
+          "type": "group",
           "label": {
-            "en": "Device name",
-            "nl": "Apparaatnaam"
+            "en": "Device information",
+            "nl": "Apparaatgegevens"
           },
-          "value": "-"
+          "children": [
+            {
+              "id": "info_title",
+              "type": "label",
+              "label": {
+                "en": "Device name",
+                "nl": "Apparaatnaam"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_model",
+              "type": "label",
+              "label": {
+                "en": "Model",
+                "nl": "Model"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_model_code",
+              "type": "label",
+              "label": {
+                "en": "Model code",
+                "nl": "Modelcode"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_hardware_id",
+              "type": "label",
+              "label": {
+                "en": "Hardware ID",
+                "nl": "Hardware ID"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_uuid",
+              "type": "label",
+              "label": {
+                "en": "UUID",
+                "nl": "UUID"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_channel_count",
+              "type": "label",
+              "label": {
+                "en": "Channel count",
+                "nl": "Aantal kanalen"
+              },
+              "value": "-"
+            }
+          ]
         },
         {
-          "id": "info_model",
-          "type": "text",
-          "label": {
-            "en": "Model",
-            "nl": "Model"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_model_code",
-          "type": "text",
-          "label": {
-            "en": "Model code",
-            "nl": "Modelcode"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_hardware_id",
-          "type": "text",
-          "label": {
-            "en": "Hardware ID",
-            "nl": "Hardware ID"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_uuid",
-          "type": "text",
-          "label": {
-            "en": "UUID",
-            "nl": "UUID"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_channel_count",
-          "type": "text",
-          "label": {
-            "en": "Channel count",
-            "nl": "Aantal kanalen"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_firmware",
-          "type": "text",
+          "type": "group",
           "label": {
             "en": "Firmware",
             "nl": "Firmware"
           },
-          "value": "-"
+          "children": [
+            {
+              "id": "info_firmware",
+              "type": "label",
+              "label": {
+                "en": "Firmware",
+                "nl": "Firmware"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_firmware_utils",
+              "type": "label",
+              "label": {
+                "en": "Utils firmware",
+                "nl": "Utils firmware"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_firmware_java",
+              "type": "label",
+              "label": {
+                "en": "Java firmware",
+                "nl": "Java firmware"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_firmware_node",
+              "type": "label",
+              "label": {
+                "en": "Node firmware",
+                "nl": "Node firmware"
+              },
+              "value": "-"
+            }
+          ]
         },
         {
-          "id": "info_firmware_utils",
-          "type": "text",
+          "type": "group",
           "label": {
-            "en": "Utils firmware",
-            "nl": "Utils firmware"
+            "en": "Session",
+            "nl": "Sessie"
           },
-          "value": "-"
+          "children": [
+            {
+              "id": "info_last_update",
+              "type": "label",
+              "label": {
+                "en": "Last device update",
+                "nl": "Laatste apparaatupdate"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_last_templog",
+              "type": "label",
+              "label": {
+                "en": "Last temperature update",
+                "nl": "Laatste temperatuurupdate"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_session_id",
+              "type": "label",
+              "label": {
+                "en": "Session ID",
+                "nl": "Sessie ID"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_active_probes",
+              "type": "label",
+              "label": {
+                "en": "Active probes",
+                "nl": "Actieve probes"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_auto_session",
+              "type": "label",
+              "label": {
+                "en": "Auto session",
+                "nl": "Automatische sessie"
+              },
+              "value": "-"
+            }
+          ]
         },
         {
-          "id": "info_firmware_java",
-          "type": "text",
+          "type": "group",
           "label": {
-            "en": "Java firmware",
-            "nl": "Java firmware"
+            "en": "Network",
+            "nl": "Netwerk"
           },
-          "value": "-"
+          "children": [
+            {
+              "id": "info_ssid",
+              "type": "label",
+              "label": {
+                "en": "Wi-Fi SSID",
+                "nl": "Wi-Fi SSID"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_internal_ip",
+              "type": "label",
+              "label": {
+                "en": "Local IP",
+                "nl": "Lokale IP"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_wifi_signal",
+              "type": "label",
+              "label": {
+                "en": "Wi-Fi signal",
+                "nl": "Wi-Fi signaal"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_link_quality",
+              "type": "label",
+              "label": {
+                "en": "Link quality",
+                "nl": "Linkkwaliteit"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_wifi_frequency",
+              "type": "label",
+              "label": {
+                "en": "Wi-Fi frequency",
+                "nl": "Wi-Fi frequentie"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_wifi_band",
+              "type": "label",
+              "label": {
+                "en": "Wi-Fi band",
+                "nl": "Wi-Fi band"
+              },
+              "value": "-"
+            }
+          ]
         },
         {
-          "id": "info_firmware_node",
-          "type": "text",
+          "type": "group",
           "label": {
-            "en": "Node firmware",
-            "nl": "Node firmware"
+            "en": "Battery information",
+            "nl": "Batterijgegevens"
           },
-          "value": "-"
+          "children": [
+            {
+              "id": "info_battery_voltage",
+              "type": "label",
+              "label": {
+                "en": "Battery voltage",
+                "nl": "Batterijspanning"
+              },
+              "value": "-"
+            }
+          ]
         },
         {
-          "id": "info_last_update",
-          "type": "text",
+          "type": "group",
           "label": {
-            "en": "Last device update",
-            "nl": "Laatste apparaatupdate"
+            "en": "System information",
+            "nl": "Systeeminformatie"
           },
-          "value": "-"
+          "children": [
+            {
+              "id": "info_uptime",
+              "type": "label",
+              "label": {
+                "en": "Uptime",
+                "nl": "Uptime"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_cpu_usage",
+              "type": "label",
+              "label": {
+                "en": "CPU usage",
+                "nl": "CPU-gebruik"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_memory_usage",
+              "type": "label",
+              "label": {
+                "en": "Memory usage",
+                "nl": "Geheugengebruik"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_disk_usage",
+              "type": "label",
+              "label": {
+                "en": "Disk usage",
+                "nl": "Schijfgebruik"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_board_temperature",
+              "type": "label",
+              "label": {
+                "en": "Board temperature",
+                "nl": "Boardtemperatuur"
+              },
+              "value": "-"
+            }
+          ]
         },
         {
-          "id": "info_last_templog",
-          "type": "text",
+          "type": "group",
           "label": {
-            "en": "Last temperature update",
-            "nl": "Laatste temperatuurupdate"
+            "en": "Fan information",
+            "nl": "Ventilatorinformatie"
           },
-          "value": "-"
-        },
-        {
-          "id": "info_active_probes",
-          "type": "text",
-          "label": {
-            "en": "Active probes",
-            "nl": "Actieve probes"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_session_id",
-          "type": "text",
-          "label": {
-            "en": "Session ID",
-            "nl": "Sessie ID"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_auto_session",
-          "type": "text",
-          "label": {
-            "en": "Auto session",
-            "nl": "Automatische sessie"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_ssid",
-          "type": "text",
-          "label": {
-            "en": "Wi-Fi SSID",
-            "nl": "Wi-Fi SSID"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_internal_ip",
-          "type": "text",
-          "label": {
-            "en": "Local IP",
-            "nl": "Lokale IP"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_public_ip",
-          "type": "text",
-          "label": {
-            "en": "Public IP",
-            "nl": "Publieke IP"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_wifi_signal",
-          "type": "text",
-          "label": {
-            "en": "Wi-Fi signal",
-            "nl": "Wi-Fi signaal"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_link_quality",
-          "type": "text",
-          "label": {
-            "en": "Link quality",
-            "nl": "Linkkwaliteit"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_wifi_frequency",
-          "type": "text",
-          "label": {
-            "en": "Wi-Fi frequency",
-            "nl": "Wi-Fi frequentie"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_wifi_band",
-          "type": "text",
-          "label": {
-            "en": "Wi-Fi band",
-            "nl": "Wi-Fi band"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_battery_voltage",
-          "type": "text",
-          "label": {
-            "en": "Battery voltage",
-            "nl": "Batterijspanning"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_battery_raw",
-          "type": "text",
-          "label": {
-            "en": "Raw battery value",
-            "nl": "Ruwe batterijwaarde"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_uptime",
-          "type": "text",
-          "label": {
-            "en": "Uptime",
-            "nl": "Uptime"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_cpu_usage",
-          "type": "text",
-          "label": {
-            "en": "CPU usage",
-            "nl": "CPU-gebruik"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_memory_usage",
-          "type": "text",
-          "label": {
-            "en": "Memory usage",
-            "nl": "Geheugengebruik"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_disk_usage",
-          "type": "text",
-          "label": {
-            "en": "Disk usage",
-            "nl": "Schijfgebruik"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_board_temperature",
-          "type": "text",
-          "label": {
-            "en": "Board temperature",
-            "nl": "Boardtemperatuur"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_drive",
-          "type": "text",
-          "label": {
-            "en": "Drive",
-            "nl": "Drive"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_drive_settings",
-          "type": "text",
-          "label": {
-            "en": "Drive settings",
-            "nl": "Drive-instellingen"
-          },
-          "value": "-"
-        },
-        {
-          "id": "info_drive_log",
-          "type": "text",
-          "label": {
-            "en": "Last Drive log",
-            "nl": "Laatste Drive-log"
-          },
-          "value": "-"
+          "children": [
+            {
+              "id": "info_drive",
+              "type": "label",
+              "label": {
+                "en": "Drive",
+                "nl": "Drive"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_drive_settings",
+              "type": "label",
+              "label": {
+                "en": "Drive settings",
+                "nl": "Drive-instellingen"
+              },
+              "value": "-"
+            },
+            {
+              "id": "info_drive_log",
+              "type": "label",
+              "label": {
+                "en": "Last Drive log",
+                "nl": "Laatste Drive-log"
+              },
+              "value": "-"
+            }
+          ]
         }
       ],
       "platforms": [
