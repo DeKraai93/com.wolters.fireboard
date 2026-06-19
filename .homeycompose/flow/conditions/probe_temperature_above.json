@@ -11,6 +11,10 @@
     {
       "name": "probe",
       "type": "autocomplete",
+      "title": {
+        "en": "Probe",
+        "nl": "Probe"
+      },
       "placeholder": {
         "en": "Probe",
         "nl": "Probe"
@@ -19,6 +23,10 @@
     {
       "name": "temperature",
       "type": "number",
+      "title": {
+        "en": "Temperature",
+        "nl": "Temperatuur"
+      },
       "placeholder": {
         "en": "Temperature",
         "nl": "Temperatuur"
