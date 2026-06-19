@@ -9,6 +9,7 @@ module.exports = class FireBoardDevice extends Homey.Device {
   private pollInterval?: NodeJS.Timeout;
   private probeLabels: Record<number, string> = {};
   private probeConnectionState: Record<number, boolean | undefined> = {};
+  private hasLoggedRawDeviceResponse = false;
 
   async onInit(): Promise<void> {
     Logger.device('FireBoard device initialized');
@@ -34,7 +35,7 @@ module.exports = class FireBoardDevice extends Homey.Device {
   private getPollIntervalSeconds(): number {
     const setting = Number(this.getSetting('poll_interval') || 60);
 
-    if ([15, 30, 60, 120, 300].includes(setting)) {
+    if ([30, 60, 120, 300].includes(setting)) {
       return setting;
     }
 
@@ -64,136 +65,212 @@ module.exports = class FireBoardDevice extends Homey.Device {
 
     const latest = await this.client.getDevice(token, device.uuid);
 
-    Logger.api('FireBoard API Status', {
-      active: latest.active,
-      last_templog: latest.last_templog,
-      last_drivelog: latest.last_drivelog,
-      latest_temps: latest.latest_temps,
-      device_log: {
-        date: latest.device_log?.date,
-        boardID: latest.device_log?.boardID,
-        mode: latest.device_log?.mode,
-        ssid: latest.device_log?.ssid,
-        internalIP: latest.device_log?.internalIP,
-        signallevel: latest.device_log?.signallevel,
-        linkquality: latest.device_log?.linkquality,
-        uptime: latest.device_log?.uptime,
-        vBatt: latest.device_log?.vBatt,
-        vBattPer: latest.device_log?.vBattPer,
-        onboardTemp: latest.device_log?.onboardTemp,
-      },
-      channels: latest.channels?.map((channel: any) => ({
-        channel: channel.channel,
-        label: channel.channel_label,
-        current_temp: channel.current_temp,
-        last_templog: channel.last_templog,
-        state: channel.state,
-        enabled: channel.enabled,
-        sessionid: channel.sessionid,
-      })),
-    });
+    if (!this.hasLoggedRawDeviceResponse) {
+      Logger.api('FireBoard RAW Device Response', latest);
+      this.hasLoggedRawDeviceResponse = true;
+    }
 
     await this.updateInfoSettings(latest);
-	await this.updateBattery(latest);
+    await this.updateBattery(latest);
 
-	if (this.isFireBoardStale(latest)) {
-	  Logger.device('FireBoard data is stale, marking device unavailable');
+    if (this.isFireBoardStale(latest)) {
+      Logger.device('FireBoard data is stale, marking device unavailable');
 
-	  await this.clearLiveValues();
+      await this.clearLiveValues();
 
-	  await this.setUnavailable(
-      'FireBoard appears to be offline',
-	  ).catch(this.error);
+      await this.setUnavailable(
+        'FireBoard appears to be offline',
+      ).catch(this.error);
 
-	  return;
-	}
+      return;
+    }
 
-	await this.updateInternalTemperature(latest);
-	await this.updateFanOutput(latest);
-	await this.updateProbes(latest);
+    await this.updateInternalTemperature(latest);
+    await this.updateFanOutput(latest);
+    await this.updateProbes(latest);
   }
+
   private isFireBoardStale(latest: any): boolean {
-     const timestamp = this.getLatestFireBoardTimestamp(latest);
+    const timestamp = this.getLatestFireBoardTimestamp(latest);
 
-     if (!timestamp) {
-       return true;
-     }
+    if (!timestamp) {
+      return true;
+    }
 
-     const ageMs = Date.now() - timestamp.getTime();
-     const maxAgeMs = this.getPollIntervalSeconds() * 3 * 1000;
+    const ageMs = Date.now() - timestamp.getTime();
+    const maxAgeMs = this.getPollIntervalSeconds() * 3 * 1000;
 
-     return ageMs > maxAgeMs;
+    return ageMs > maxAgeMs;
   }
 
   private getLatestFireBoardTimestamp(latest: any): Date | null {
-     const candidates = [
+    const candidates = [
       latest.last_templog,
       latest.device_log?.date,
       latest.last_drivelog?.created,
-     ];
+    ];
 
-     for (const candidate of candidates) {
-     const parsed = this.parseFireBoardDate(candidate);
+    for (const candidate of candidates) {
+      const parsed = this.parseFireBoardDate(candidate);
 
-       if (parsed) {
-         return parsed;
-       }
-     }
+      if (parsed) {
+        return parsed;
+      }
+    }
 
-     return null;
+    return null;
   }
 
   private parseFireBoardDate(value: unknown): Date | null {
-  if (typeof value !== 'string' || value.length === 0) {
-    return null;
+    if (typeof value !== 'string' || value.length === 0) {
+      return null;
+    }
+
+    const normalized = value.endsWith(' UTC')
+      ? value.replace(' UTC', 'Z').replace(' ', 'T')
+      : value;
+
+    const date = new Date(normalized);
+
+    if (Number.isNaN(date.getTime())) {
+      return null;
+    }
+
+    return date;
   }
 
-  const normalized = value.endsWith(' UTC')
-    ? value.replace(' UTC', 'Z').replace(' ', 'T')
-    : value;
+  private async clearLiveValues(): Promise<void> {
+    await this.setCapabilityValue('measure_temperature', null).catch(this.error);
 
-  const date = new Date(normalized);
+    if (this.hasCapability('measure_fan_output')) {
+      await this.setCapabilityValue('measure_fan_output', null).catch(this.error);
+    }
 
-  if (Number.isNaN(date.getTime())) {
-    return null;
-  }
+    for (let probe = 1; probe <= 6; probe++) {
+      const capability = `measure_temperature_probe${probe}`;
 
-  return date;
-}
-
-private async clearLiveValues(): Promise<void> {
-  await this.setCapabilityValue('measure_temperature', null).catch(this.error);
-
-  if (this.hasCapability('measure_fan_output')) {
-    await this.setCapabilityValue('measure_fan_output', null).catch(this.error);
-  }
-
-  for (let probe = 1; probe <= 6; probe++) {
-    const capability = `measure_temperature_probe${probe}`;
-
-    if (this.hasCapability(capability)) {
-      await this.setCapabilityValue(capability, null).catch(this.error);
+      if (this.hasCapability(capability)) {
+        await this.setCapabilityValue(capability, null).catch(this.error);
+      }
     }
   }
-}
+
   private async updateInfoSettings(latest: any): Promise<void> {
     const deviceLog = latest.device_log || {};
+    const activeProbeCount = this.getActiveProbeCount(latest);
+    const sessionId = this.getCurrentSessionId(latest);
+    const isDriveModel = this.isDriveModel(latest);
 
     const settings = {
-      info_model: String(latest.model_name || latest.model || '-'),
-      info_firmware: String(latest.version || deviceLog.version || '-'),
-      info_hardware_id: String(latest.hardware_id || deviceLog.boardID || '-'),
-      info_last_update: String(deviceLog.date || new Date().toISOString()),
-      info_ssid: String(deviceLog.ssid || '-'),
-      info_wifi_signal: deviceLog.signallevel !== undefined
+      info_title: this.formatText(latest.title),
+      info_model: this.formatText(latest.model_name || latest.model),
+      info_model_code: this.formatText(latest.model || deviceLog.model),
+      info_hardware_id: this.formatText(latest.hardware_id || deviceLog.boardID),
+      info_uuid: this.formatText(latest.uuid || deviceLog.deviceID),
+      info_channel_count: this.formatText(latest.channel_count),
+
+      info_firmware: this.formatText(latest.version || deviceLog.version),
+      info_firmware_utils: this.formatText(latest.fbu_version || deviceLog.versionUtils),
+      info_firmware_java: this.formatText(latest.fbj_version || deviceLog.versionJava),
+      info_firmware_node: this.formatText(latest.fbn_version || deviceLog.versionNode),
+
+      info_last_update: this.formatText(deviceLog.date),
+      info_last_templog: this.formatText(latest.last_templog),
+      info_active_probes: `${activeProbeCount} / ${latest.channel_count || 6}`,
+      info_session_id: this.formatText(sessionId),
+      info_auto_session: latest.auto_session === true ? 'Enabled' : 'Disabled',
+
+      info_ssid: this.formatText(deviceLog.ssid),
+      info_internal_ip: this.formatText(deviceLog.internalIP),
+      info_public_ip: this.formatText(deviceLog.publicIP),
+      info_wifi_signal: typeof deviceLog.signallevel === 'number'
         ? `${deviceLog.signallevel} dBm`
         : '-',
-      info_drive: latest.last_drivelog
+      info_link_quality: this.formatText(deviceLog.linkquality),
+      info_wifi_frequency: this.formatText(deviceLog.frequency),
+      info_wifi_band: this.formatText(deviceLog.band),
+
+      info_battery_voltage: typeof deviceLog.vBatt === 'number'
+        ? `${deviceLog.vBatt.toFixed(2)} V`
+        : '-',
+      info_battery_raw: typeof deviceLog.vBattPerRaw === 'number'
+        ? `${Math.round(deviceLog.vBattPerRaw * 100)} %`
+        : '-',
+
+      info_uptime: this.formatText(deviceLog.uptime),
+      info_cpu_usage: this.formatText(deviceLog.cpuUsage),
+      info_memory_usage: this.formatText(deviceLog.memUsage),
+      info_disk_usage: this.formatText(deviceLog.diskUsage),
+      info_board_temperature: typeof deviceLog.onboardTemp === 'number'
+        ? `${deviceLog.onboardTemp.toFixed(1)} °C`
+        : '-',
+
+      info_drive: this.getDriveStatus(latest, isDriveModel),
+      info_drive_settings: this.getDriveSettingsSummary(deviceLog.drivesettings),
+      info_drive_log: latest.last_drivelog
         ? 'Available'
-        : 'Not detected',
+        : 'No recent Drive activity',
     };
 
     await this.setSettings(settings).catch(this.error);
+  }
+
+  private getActiveProbeCount(latest: any): number {
+    const channels = latest.channels || [];
+
+    return channels.filter((channel: any) => (
+      typeof channel.current_temp === 'number'
+    )).length;
+  }
+
+  private getCurrentSessionId(latest: any): string | number | null {
+    const channels = latest.channels || [];
+    const activeChannel = channels.find((channel: any) => channel.sessionid);
+
+    return activeChannel?.sessionid || null;
+  }
+
+  private isDriveModel(latest: any): boolean {
+    const modelName = String(latest.model_name || '').toLowerCase();
+    const modelCode = String(latest.model || '').toUpperCase();
+
+    return modelName.includes('drive') || modelCode === 'FBX2D';
+  }
+
+  private getDriveStatus(latest: any, isDriveModel: boolean): string {
+    if (!isDriveModel) {
+      return 'Not detected';
+    }
+
+    if (latest.last_drivelog) {
+      return 'Drive model detected, recent activity';
+    }
+
+    return 'Drive model detected, no blower activity';
+  }
+
+  private getDriveSettingsSummary(value: unknown): string {
+    if (typeof value !== 'string' || value.length === 0) {
+      return '-';
+    }
+
+    try {
+      const settings = JSON.parse(value);
+
+      return Object.entries(settings)
+        .map(([key, settingValue]) => `${key}: ${settingValue}`)
+        .join(', ');
+    } catch (error) {
+      return value;
+    }
+  }
+
+  private formatText(value: unknown): string {
+    if (value === undefined || value === null || value === '') {
+      return '-';
+    }
+
+    return String(value);
   }
 
   private async updateBattery(latest: any): Promise<void> {

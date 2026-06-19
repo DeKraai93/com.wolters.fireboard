@@ -4,6 +4,7 @@
     "en": "Fan Output",
     "nl": "Ventilator"
   },
+  "icon": "/assets/drive.svg",
   "units": {
     "en": "%"
   },

@@ -4,6 +4,7 @@
     "en": "Probe 2",
     "nl": "Probe 2"
   },
+  "icon": "/assets/probe.svg",
   "units": {
     "en": "°C"
   },
